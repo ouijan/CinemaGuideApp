@@ -11,13 +11,27 @@
 |
 */
 
-$router->get('/', 'WelcomeController@index');
+$router->get('/', function(){ 
+	return 'home';
+});
 
 
-$router->resource('movies', 'MoviesController', [
+
+
+
+$router->get('cinemas/{id}/sessions', 'CinemasController@sessions');
+$router->get('movies/{id}/sessions', 'MoviesController@sessions');
+
+$router->resource('cinemas', 'CinemasController', [
 	'except' => ['create','edit'],
 ]);
 
+$router->resource('movies', 'MoviesController', [
+	'only' => ['index','show'],
+]);
 
+$router->resource('sessions', 'SessionTimesController', [
+	'only' => ['index','show'],
+]);
 
 

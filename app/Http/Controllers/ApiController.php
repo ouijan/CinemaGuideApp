@@ -47,6 +47,16 @@ class ApiController extends Controller {
 		return $this->setStatusCode(404)->respondWithError($message);
 	}
 
+	/**
+	 * Failed Validation Error
+	 *
+	 * @param $message string
+	 * @return JSON response
+	 */
+	public function respondValidationError($message = 'Failed Validation!')
+	{	
+		return $this->setStatusCode(422)->respondWithError($message);
+	}
 
 	/**
 	 * Internal Error
@@ -59,6 +69,27 @@ class ApiController extends Controller {
 		return $this->setStatusCode(500)->respondWithError($message);
 	}
 
+	/**
+	 * Created Successfully
+	 *
+	 * @param $message string
+	 * @return JSON response
+	 */
+	public function respondCreated($message = 'Successfully Created!')
+	{	
+		return $this->setStatusCode(201)->respondWithSuccess($message);
+	}
+
+	/**
+	 * Destroyed Successfully
+	 *
+	 * @param $message string
+	 * @return JSON response
+	 */
+	public function respondDeleted($message = 'Successfully Deleted!')
+	{	
+		return $this->setStatusCode(200)->respondWithSuccess($message);
+	}
 
 	/**
 	 * Create error array
@@ -70,6 +101,22 @@ class ApiController extends Controller {
 	{
 		return $this->respond([
 			'error' => [
+				'message' 		=> $message,
+				'statusCode'	=> $this->statusCode,
+			]
+		]);
+	}
+
+	/**
+	 * Create success array
+	 * 
+	 * @param  $message string
+	 * @return JSON response
+	 */
+	public function respondWithSuccess($message)
+	{
+		return $this->respond([
+			'success' => [
 				'message' 		=> $message,
 				'statusCode'	=> $this->statusCode,
 			]

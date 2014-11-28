@@ -30,4 +30,5 @@ class Kernel extends HttpKernel {
 		'csrf' => 'Illuminate\Foundation\Http\Middleware\VerifyCsrfToken',
 	];
 
+
 }

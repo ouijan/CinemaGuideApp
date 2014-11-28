@@ -17,8 +17,8 @@ class CreateCinemasTable extends Migration {
 			$table->increments('id');
 			$table->string('name');
 			$table->string('address');
-			$table->double('geo_lat', 10, 6);
-			$table->double('geo_long', 10, 6);
+			$table->double('geo_lat', 10, 6)->nullable();
+			$table->double('geo_long', 10, 6)->nullable();
 			$table->timestamps();
 		});
 	}

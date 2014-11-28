@@ -25,6 +25,22 @@ class SessionTimes extends Model {
 	 */
 	protected $fillable = ['movie_id','cinema_id','date_time'];
 
+	/**
+	 * Many SessionTimes to One Movie
+	 * @return Table Relationship
+	 */
+	public function movies()
+	{
+		return $this->belongsToOne('App\Movies');
+	}
 
+	/**
+	 * Many SessionTimes to One Cinema
+	 * @return Table Relationship
+	 */
+	public function cinemas()
+	{
+		return $this->belongsToOne('App\Cinemas');
+	}
 
 }

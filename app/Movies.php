@@ -26,6 +26,13 @@ class Movies extends Model {
 	 */
 	protected $fillable = ['title'];
 
-
+	/**
+	 * One Movie to Many Session Times
+	 * @return Table relationship
+	 */
+	public function sessionTimes()
+	{
+		return $this->hasMany('App\SessionTimes', 'movie_id');
+	}
 
 }

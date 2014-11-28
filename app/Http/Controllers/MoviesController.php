@@ -2,7 +2,8 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Http\Transformers\MovieTransformer;
+use App\Http\Transformers\MoviesTransformer;
+use App\Http\Transformers\SessionTimesTransformer;
 use App\Movies;
 
 class MoviesController extends ApiController {
@@ -13,24 +14,14 @@ class MoviesController extends ApiController {
 	 *
 	 * @return Response
 	 */
-	public function index(MovieTransformer $movieTransformer)
+	public function index(MoviesTransformer $transformer)
 	{
 		$movies = Movies::all();
 
 		return $this->respond([
-			'data' => $movieTransformer->transformCollection($movies->toArray())
+			'data' => $transformer->transformCollection($movies->toArray())
 		]);
 
-	}
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		dd('store');
 	}
 
 	/**
@@ -39,9 +30,9 @@ class MoviesController extends ApiController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show(MovieTransformer $movieTransformer, $id)
+	public function show(MoviesTransformer $transformer, $id)
 	{
-		$movie = Movies::find($id);
+		$movie = Movies::findOrFail($id);
 
 		if( !$movie )
 		{
@@ -49,33 +40,25 @@ class MoviesController extends ApiController {
 		}
 
 		return $this->respond([
-			'data' => $movieTransformer->transform($movie),
+			'data' => $transformer->transform($movie),
 		]);
 	}
 
 	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
+	 * Shows sessionTimes of a given movie
+	 * 
+	 * @param  SessionTimesTransformer - transforms data to the api json
+	 * @param  $id - id of a movie
+	 * @return JSON response
 	 */
-	public function update($id)
+	public function sessions(SessionTimesTransformer $transformer, $id)
 	{
-		//
+		$sessions = Movies::findOrFail($id)->sessionTimes;
+
+		return $this->respond([
+			'data' => $transformer->transformCollection($sessions->toArray())
+		]);
 	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
-
-
 
 
 }

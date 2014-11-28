@@ -1,7 +1,7 @@
 <?php namespace App\Http\Transformers;
 
 
-class MovieTransformer extends Transformer {
+class MoviesTransformer extends Transformer {
 	
 	/**
 	 *  Transform an item
@@ -12,6 +12,7 @@ class MovieTransformer extends Transformer {
 	public function transform($movie)
 	{
 		return [
+			'id'	=> $movie['id'],
 			'title'	=> $movie['title'],
 		];
 	}

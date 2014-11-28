@@ -8,6 +8,12 @@ use App\SessionTimes;
 
 class DatabaseSeeder extends Seeder {
 
+	private $tables = [
+		'movies',
+		'cinemas',
+		'session_times',
+	];
+
 	/**
 	 * Run the database seeds.
 	 *
@@ -15,10 +21,8 @@ class DatabaseSeeder extends Seeder {
 	 */
 	public function run()
 	{
-		// truncate tables
-		Movies::truncate();
-		Cinemas::truncate();
-		SessionTimes::truncate();
+		// Truncate database
+		$this->cleanDatabase();
 		
 		Model::unguard();
 
@@ -26,6 +30,24 @@ class DatabaseSeeder extends Seeder {
 		$this->call('MoviesTableSeeder');
 		$this->call('CinemasTableSeeder');
 		$this->call('SessionTimesTableSeeder');
+	}
+
+
+	/**
+	 * Cleans out the database via truncate.
+	 *
+	 * @return void
+	 */
+	private function cleanDatabase()
+	{
+		DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
+		foreach( $this->tables as $tableName )
+		{
+			DB::table($tableName)->truncate();
+		}
+
+		DB::statement('SET FOREIGN_KEY_CHECKS=1');
 	}
 
 }

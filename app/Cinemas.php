@@ -26,5 +26,13 @@ class Cinemas extends Model {
 	protected $fillable = ['name','address','get_lat','geo_long'];
 
 
+	/**
+	 * One Cinema to many SessionTimes
+	 * @return [type] [description]
+	 */
+	public function sessionTimes()
+	{
+		return $this->hasMany('App\SessionTimes', 'cinema_id');
+	}
 
 }

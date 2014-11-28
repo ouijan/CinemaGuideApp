@@ -23,13 +23,13 @@ class SessionTimesTableSeeder extends Seeder {
 		{
 
 			// randomise movie and cinema
-			$movie = Movies::orderByRaw("RAND()")->get()->first();
-			$cinema = Cinemas::orderByRaw("RAND()")->get()->first();
+			$movieIds = Movies::lists('id');
+			$cinemaIds = Cinemas::lists('id');
 			
 			// create random session
 			SessionTimes::create([
-				'movie_id' 	=> $movie['id'],
-				'cinema_id'	=> $cinema['id'],
+				'movie_id' 	=> $faker->randomElement($movieIds),
+				'cinema_id'	=> $faker->randomElement($cinemaIds),
 				'date_time' => $faker->dateTimeThisMonth(),
 			]);
 

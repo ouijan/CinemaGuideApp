@@ -21,7 +21,7 @@ class CinemasTableSeeder extends Seeder {
 		{
 			Cinemas::create([
 				'name' 		=> $faker->sentence(2),
-				'address'	=> $faker->address,
+				'address'	=> $faker->streetAddress,
 				'geo_lat' 	=> $faker->latitude,
 				'geo_long' 	=> $faker->longitude,
 			]);

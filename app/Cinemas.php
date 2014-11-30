@@ -28,7 +28,7 @@ class Cinemas extends Model {
 
 	/**
 	 * One Cinema to many SessionTimes
-	 * @return [type] [description]
+	 * @return Table Relationship
 	 */
 	public function sessionTimes()
 	{

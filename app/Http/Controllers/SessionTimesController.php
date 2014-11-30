@@ -10,7 +10,11 @@ use App\Movies;
 
 class SessionTimesController extends ApiController {
 
-
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return json array
+	 */
 	public function index(SessionTimesTransformer $transformer, PaginateRequest $request)
 	{
 		$limit = $request->get('limit', 5);

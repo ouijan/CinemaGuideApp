@@ -12,8 +12,6 @@ class UpdateCinemasRequest extends Request {
 	public function rules()
 	{
 		return [
-			'name' 		=> '',
-			'address'	=> '',
 			'geo_lat'	=> 'regex:/[+-]?\d{0,4}\.\d{0,6}/',
 			'geo_long'	=> 'regex:/[+-]?\d{0,4}\.\d{0,6}/',
 		];

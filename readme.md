@@ -234,6 +234,7 @@ Session data will be returned in this format:
    - Add Geo-location search to Cinemas
    - Add custom handling for failed requests. Currently redirects to homepage.
    - Return link to new item on Create requests
+   - Filtering sessions response can happen anyway (No need for if statement) 
 
 ##### Known Issues
    - Failed requests redirect to homepage.

@@ -39,12 +39,13 @@ class ApiController extends Controller {
 	|--------------------------------------------------------------------------
 	| Respond Helpers
 	|--------------------------------------------------------------------------
-	|
-	| Here is where you can register all of the routes for an application.
-	| It's a breeze. Simply tell Laravel the URIs it should respond to
-	| and give it the Closure to execute when that URI is requested.
-	|
 	*/
+	/**
+	 * Paginated Results - transforms paginator for api use
+	 *
+	 * @param $message string
+	 * @return json array
+	 */
 	public function respondPaginate(LengthAwarePaginator $paginator, Transformer $dataTransformer)
 	{
 		return $this->respond([

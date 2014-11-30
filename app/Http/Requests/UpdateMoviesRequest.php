@@ -2,7 +2,7 @@
 
 use App\Http\Requests\Request;
 
-class DestroyCinemasRequest extends Request {
+class UpdateMoviesRequest extends Request {
 
 	/**
 	 * Get the validation rules that apply to the request.
@@ -12,7 +12,7 @@ class DestroyCinemasRequest extends Request {
 	public function rules()
 	{
 		return [
-			'id' => 'required',
+			'title' => 'required',
 		];
 	}
 
@@ -25,5 +25,8 @@ class DestroyCinemasRequest extends Request {
 	{
 		return true;
 	}
+
+
+
 
 }

@@ -2,7 +2,7 @@
 
 use App\Http\Requests\Request;
 
-class CreateCinemasRequest extends Request {
+class UpdateCinemasRequest extends Request {
 
 	/**
 	 * Get the validation rules that apply to the request.
@@ -12,8 +12,8 @@ class CreateCinemasRequest extends Request {
 	public function rules()
 	{
 		return [
-			'name' 		=> 'required',
-			'address'	=> 'required',
+			'name' 		=> '',
+			'address'	=> '',
 			'geo_lat'	=> 'regex:/[+-]?\d{0,4}\.\d{0,6}/',
 			'geo_long'	=> 'regex:/[+-]?\d{0,4}\.\d{0,6}/',
 		];
@@ -28,9 +28,5 @@ class CreateCinemasRequest extends Request {
 	{
 		return true;
 	}
-
-	
-
-
 
 }

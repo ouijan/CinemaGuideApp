@@ -19,7 +19,7 @@ class SessionTimesTableSeeder extends Seeder {
 		$faker = Faker::create();
 
 
-		foreach(range(1,30) as $index)
+		foreach(range(1,100) as $index)
 		{
 
 			// randomise movie and cinema

@@ -26,7 +26,7 @@ return [
 	|
 	*/
 
-	'url' => 'http://localhost/CinemaGuideApp/public',
+	'url' => 'http://localhost',
 
 	/*
 	|--------------------------------------------------------------------------

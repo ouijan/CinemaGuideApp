@@ -1,7 +1,7 @@
 <?php namespace App\Http\Transformers;
 
-use App\Movies;
-use App\Cinemas;
+use App\Http\Transformers\MoviesTransformer;
+use App\Http\Transformers\CinemasTransformer;
 
 class SessionTimesTransformer extends Transformer {
 	
@@ -13,14 +13,12 @@ class SessionTimesTransformer extends Transformer {
 	 */
 	public function transform($session)
 	{
-		$cinema = Cinemas::find($session['cinema_id']);
-		$movie = Movies::find($session['movie_id']);
-
 		return [
 			'id'		=> $session['id'],
-			'cinema'	=> $cinema['name'],
-			'movie'		=> $movie['title'],
+			'cinema'	=> $session['cinema_id'],
+			'movie'		=> $session['movie_id'],
 			'time' 		=> $session['date_time'],
 		];
 	}
+
 }

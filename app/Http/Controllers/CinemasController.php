@@ -1,10 +1,13 @@
 <?php namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Http\Transformers\CinemasTransformer;
 use App\Http\Transformers\SessionTimesTransformer;
+use App\Http\Requests\PaginateRequest;
 use App\Http\Requests\CreateCinemasRequest;
+use App\Http\Requests\UpdateCinemasRequest;
 use App\Http\Requests\DestroyCinemasRequest;
 use App\Cinemas;
 
@@ -14,28 +17,24 @@ class CinemasController extends ApiController {
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return Response
+	 * @return json array
 	 */
-	public function index(CinemasTransformer $transformer)
+	public function index(CinemasTransformer $transformer, PaginateRequest $request)
 	{
-		$cinemas = Cinemas::all();
 
-		return $this->respond([
-			'data' => $transformer->transformCollection($cinemas->toArray())
-		]);
+		$limit = $request->get('limit', 5);
+		$cinemas = Cinemas::paginate($limit);
 
+		return $this->respondPaginate($cinemas, $transformer);
 	}
 
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @return Response
+	 * @return json array
 	 */
 	public function store(CreateCinemasRequest $request)
 	{
-		// input Validation failed
-		//return $this->respondValidationError('Input failed validation');
-		
 		Cinemas::create([
 			'name'		=> $request->name,
 			'address'	=> $request->address,
@@ -44,55 +43,36 @@ class CinemasController extends ApiController {
 		]);
 
 		return $this->respondCreated('Cinema Succcessfully Created!');
-
 	}
 
 	/**
 	 * Display the specified resource.
 	 *
 	 * @param  int  $id
-	 * @return Response
+	 * @return json array
 	 */
 	public function show(CinemasTransformer $transformer, $id)
 	{
-		$cinema = Cinemas::findOrFail($id);
-
-		if( !$cinema )
-		{
-			return $this->respondNotFound('Cinema does not exist.');
-		}
+		$cinema = Cinemas::find($id);
+		if ( !isset($cinema) ) return $this->respondNotFound('Cinema does not exist.');
 
 		return $this->respond([
 			'data' => $transformer->transform($cinema),
 		]);
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-
-		return $id;
-	}
 
 	/**
 	 * Remove the specified resource from storage.
 	 *
 	 * @param  int  $id
-	 * @return JSON Response
+	 * @return json
 	 */
 	public function destroy($id)
 	{
-		$cinema = Cinemas::findOrFail($id);
+		$cinema = Cinemas::find($id);
 
-		if( !$cinema )
-		{
-			return $this->respondNotFound('Cinema does not exist.');
-		}
+		if (!isset($cinema)) return $this->respondNotFound('Cinema does not exist.');
 
 		Cinemas::destroy($id);
 
@@ -106,13 +86,19 @@ class CinemasController extends ApiController {
 	 * @param  $id - id of a cinema
 	 * @return JSON response
 	 */
-	public function sessions(SessionTimesTransformer $transformer, $id)
+	public function sessions(SessionTimesTransformer $transformer, PaginateRequest $request, $id)
 	{
-		$sessions = Cinemas::findOrFail($id)->sessionTimes;
+		$limit = $request->get('limit', 5);
+		$date = $request->get('date');
 
-		return $this->respond([
-			'data' => $transformer->transformCollection($sessions->toArray())
-		]);
+		$sessions = Cinemas::findOrFail($id)->sessionTimes();
+
+		// Filter data
+		if ($date) $sessions->where('date_time', 'like','%'.$date.'%');
+
+		$sessions = $sessions->paginate($limit);
+
+		return $this->respondPaginate($sessions, $transformer);
 	}
 
 

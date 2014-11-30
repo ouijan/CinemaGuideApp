@@ -17,21 +17,25 @@ $router->get('/', function(){
 
 
 
+$router->group(['prefix' => 'api/v1'], function($router)
+{
 
+	$router->get('movies/{id}/sessions', ['as' => 'api.v1.movies.sessions', 'uses' => 'MoviesController@sessions']);
+	$router->get('cinemas/{id}/sessions', ['as' => 'api.v1.cinemas.sessions', 'uses' => 'CinemasController@sessions']);
 
-$router->get('cinemas/{id}/sessions', 'CinemasController@sessions');
-$router->get('movies/{id}/sessions', 'MoviesController@sessions');
+	$router->resource('cinemas', 'CinemasController', [
+		'except' => ['create','edit','update']
+	]);
 
-$router->resource('cinemas', 'CinemasController', [
-	'except' => ['create','edit'],
-]);
+	$router->resource('movies', 'MoviesController', [
+		'except' => ['create','edit','update']
+	]);
 
-$router->resource('movies', 'MoviesController', [
-	'only' => ['index','show'],
-]);
+	$router->resource('sessions', 'SessionTimesController', [
+		'only' =>  'index'
+	]);
 
-$router->resource('sessions', 'SessionTimesController', [
-	'only' => ['index','show'],
-]);
+});
+
 
 

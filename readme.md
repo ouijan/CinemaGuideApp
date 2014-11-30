@@ -5,102 +5,240 @@ Cinema Guide App is a simple, Laravel 5 based, RESTful API. Created for mobile a
    - Respond to the *application/json* media type, and return data in JSON format.
    - Support the ability to get a list of movies playing at a given cinema on a given date.
    - Be fully documented
-   
 
-## API Documentation
-
-#### Cinema Info
-|Method     |Route                     |Description                |
-|:----------|:-------------------------|:--------------------------|
-|GET        |/cinemas                  |Cinema Listings            |
-|POST       |/cinemas                  |Create New Cinema          |
-|GET        |/cinemas/{id}             |Cinema Information         |
-|PUT/PATCH  |/cinemas/{id}             |Update Cinema              |
-|DELETE     |/cinemas/{id}             |Destroy Cinema             |
-|GET        |/cinemas/{id}/sessions    |Sessions at cinema         |
-
+## JSON Response Structure
+The Api responds with JSON. The response will be either a "success" message, an "error" message or a "data" response.
+##### Success
 ```json
    {
-      "id": 1,
-      "name": "Ut iusto temporibus.",
-      "address": "27607 Brown Skyway Apt. 887",
-      "geo": {
-         "latitude": -8.713891,
-         "longitude": -151.931623
+      "success": {
+         "message": "message here",
+         "statusCode": 200
       }
    }
 ```
-
-#### Movie Info
-|Method     |Route                     |Description                |
-|:----------|:-------------------------|:--------------------------|
-|GET        |/movies                   |Movies Listings            |
-|POST       |/movies                   |Create New Movie           |
-|GET        |/movies/{id}              |Movie Information          |
-|PUT/PATCH  |/movies/{id}              |Update Movie               |
-|DELETE     |/movies/{id}              |Destroy Movie              |
-|GET        |/movies/{id}/sessions     |Sessions of Movie          |
-
+##### Error
 ```json
    {
-      "id": 1,
-      "title": "Voluptas fugiat reprehenderit."
-   }
-```
-
-#### Session Info
-|Method     |Route                     |Description                |
-|:----------|:-------------------------|:--------------------------|
-|GET        |/sessions                 |Session Listings           |
-|GET        |/sessions/{id}            |Session Information        |
-
-```json
-   {
-      "id": 1,
-      "cinema": "Officia non et.",
-      "movie": "Adipisci aut doloremque.",
-      "time": "2014-10-28 13:05:51"
-   }
-```
-
-#### JSON response Structure
-```json
-   {
-      "success (OR) error": {
+      "error": {
          "message": "message here",
-         "statusCode": 200
+         "statusCode": 400
+      }
+   }
+```
+##### Successful Data Retrieval
+This may include a paginator for collections
+```json
+   {
+      "paginator": {
+         "total": 20,
+         "limit": 5,
+         "pagesTotal": 4,
+         "pagesCurrent": 1,
+         "nextUrl": "http://localhost/CinemaGuideApp/public/api/v1/sessions/?page=2",
+         "prevUrl": null
       },
       "data": [
          {
-            // etc
+            "id": 1,
+            "title": "Hello World!"
          }
       ]
    }
-
 ```
 
+## Cinema Resource
+Cinema data will be returned in this format:
+```json
+    {
+        "id": 6,
+        "name": "Debitis id dolores.",
+        "address": "4536 Walton Falls",
+        "geo": {
+            "latitude": 40.994731,
+            "longitude": 143.170495
+        }
+    }
+```
+#### Cinema Listings
+   - **URL:** "/api/v1/cinemas"
+   - **Method:** GET
+   - **URL Parameters:** none
+      - **Required:** none
+      - **Optional:** none
+   - **Data Parameters** 
+      - **Required:** none
+      - **Optional** none
+   - **Success Response:** Paginated data response
+    
+#### Cinema Information
+   - **URL:** "/api/v1/cinemas/:id"
+   - **Method:** GET
+   - **URL Parameters:**
+      - **Required:** id=[integer]
+      - **Optional:** none
+   - **Data Parameters** 
+      - **Required:**
+      - **Optional**
+   - **Success Response:** Single data response
 
-## Development
+#### Create New Cinema
+   - **URL:** "/api/v1/cinemas"
+   - **Method:** POST
+   - **URL Parameters:**
+      - **Required:** none
+      - **Optional:** none
+   - **Data Parameters** 
+      - **Required:** 
+         - name=[string]
+         - address=[string]
+      - **Optional** 
+         - geo_lat=[float]
+         - geo_long=[float]
+   - **Success Response:** Success Message
+    
+#### Delete Cinema
+   - **URL:** "/api/v1/cinemas/:id"
+   - **Method:** DELETE
+   - **URL Parameters:**
+      - **Required:** id=[integer]
+      - **Optional:** none
+   - **Data Parameters** 
+      - **Required:** none
+      - **Optional** none
+   - **Success Response:** Success Message
+    
+#### Get Cinema's Sessions
+   - **URL:** "/api/v1/cinemas/:id/sessions?:date&:page&:limit"
+   - **Method:** GET
+   - **URL Parameters:**
+      - **Required:** id=[integer]
+      - **Optional:** 
+         - date=[string] Accepts partial Dates eg. 2014-11
+         - page=[integer] pagination offset
+         - limit=[integer] pagination limit
+   - **Data Parameters** 
+      - **Required:** none
+      - **Optional** none
+   - **Success Response:** Paginated data response
 
-##### Todo's
-   - Finish MoviesController - update
-   - Finish CinemasController - update store destroy
+## Movie Resource
+Movie data will be returned in this format:
+```json
+   {
+        "id": 6,
+        "title": "Doloribus doloribus officia similique."
+    }
+```
+#### Movie Listings
+   - **URL:** "/api/v1/movies"
+   - **Method:** GET
+   - **URL Parameters:** none
+      - **Required:** none
+      - **Optional:** none
+   - **Data Parameters** 
+      - **Required:** none
+      - **Optional** none
+   - **Success Response:** Paginated data response
+    
+#### Movie Information
+   - **URL:** "/api/v1/movies/:id"
+   - **Method:** GET
+   - **URL Parameters:**
+      - **Required:** id=[integer]
+      - **Optional:** none
+   - **Data Parameters** 
+      - **Required:**
+      - **Optional**
+   - **Success Response:** Single data response
+
+#### Create New Movie
+   - **URL:** "/api/v1/movies"
+   - **Method:** POST
+   - **URL Parameters:**
+      - **Required:** none
+      - **Optional:** none
+   - **Data Parameters** 
+      - **Required:** title=[string]
+      - **Optional** none
+   - **Success Response:** Success Message
+    
+#### Delete Movie
+   - **URL:** "/api/v1/movies/:id"
+   - **Method:** DELETE
+   - **URL Parameters:**
+      - **Required:** id=[integer]
+      - **Optional:** none
+   - **Data Parameters** 
+      - **Required:** none
+      - **Optional** none
+   - **Success Response:** Success Message
+    
+#### Get Movie's Sessions
+   - **URL:** "/api/v1/movies/:id/sessions?:date&:page&:limit"
+   - **Method:** GET
+   - **URL Parameters:**
+      - **Required:** id=[integer]
+      - **Optional:** 
+         - date=[timestamp](YYY-MM-DD hh-mm-ss) Accepts partial Dates eg. 2014-11,
+         - page=[integer] pagination offset
+         - limit=[integer] pagination limit
+   - **Data Parameters** 
+      - **Required:** none
+      - **Optional** none
+   - **Success Response:** Paginated data response
+
+## Sessions Resource
+Session data will be returned in this format:
+```json
+   {
+      "id": 1,
+      "cinema": 3,
+      "movie": 2,
+      "time": "2014-11-03 16:39:37"
+   }
+```
+#### Sessions Listings
+   - **URL:** "/api/v1/sessions"
+   - **Method:** GET
+   - **URL Parameters:** none
+      - **Required:** none
+      - **Optional:** none
+   - **Data Parameters** 
+      - **Required:** none
+      - **Optional** none
+   - **Success Response:** Paginated data response
+    
+
+
+# Development
+
+##### To do's
+   - Add MovieController's Update Method
+   - Add CinemasController's Update Method
+   - Add SessionTimesController's Store Update Store Delete Methods
+      - Make accessible from Movies & Cinemas session routes
+   - **Revert:** Switch back to findOrFail (figure out how to handle the global exception)
    - Tidy Up Error Responses in ApiController
-      - refactor all responses to include success(message & code) OR error(message & code) as well as data
+      - Add respondData to ApiController, accept transformer and data (cleanup)
       - Extract status codes to constant. Illuminate\Response has constants??
-   - Inject Validation to Update and Delete requests
-   - Add Authenication
-   - Research: onDelete & onUpdate foreign key paramas
-   - Setup error response (no query results)
-      - Add global exceptions (error handling) & switch to findOrFail
-   - Ensure reponse is to application/json requests ( isJson ??)
-
+   - Add Authenication to Store Update and Delete requests (create the requests where neccessary)
+   - Refactor @sessions. where ??
+   - Create a SessionsRequest to handle input validation. (date currently not validated)
+   - sessions return movie/cinema query link ??
+   - Finish tests classes and testing
+      - Needs testing database
+      - Need Json evaluation
+      - Clean Up
+      - assertResponseOk was returning error (eg Undefined Property: MoviesTest::$client ) ???
+   - Add Geo-location search to Cinemas
+   - Add custom handling for failed requests. Currently redirects to homepage.
+   - Return link to new item on Create requests
 
 ##### Known Issues
-   - ~~Failed validation redirects to homepage.~~ Validation temporarily removed
-   - ~~application/json request failed validation (redirect to homepage)~~ Validation temporarily removed
-   - Cant access DELETE routes when trying to inject a request handler eg. DestroyMoviesRequest
-   - 
+   - Failed requests redirect to homepage.
+   - Currently testing against production database, produces false errors when testing records etc.
+   - findOrFail in the @sessions handlers throws 500 Error.
 
 ##### Things to consider
    - Structure of JSON (nested data objects)
@@ -113,10 +251,20 @@ Cinema Guide App is a simple, Laravel 5 based, RESTful API. Created for mobile a
    - Error Handling
 
 ##### Data Model
-   - **cinemas**           - id, name, address, geo_lat, geo_long
-   - **movies**            - id, title
-   - **session_times**     - id, movie_id, cinema_id, date_time
-   - 
+   - **cinemas**           
+      - id 
+      - name 
+      - address
+      - geo_lat
+      - geo_long
+   - **movies**            
+      - id
+      - title
+   - **session_times**     
+      - id
+      - movie_id
+      - cinema_id
+      - date_time
    
 ##### Utilises
    - [Laravel 5](https://github.com/laravel/laravel)
@@ -124,6 +272,22 @@ Cinema Guide App is a simple, Laravel 5 based, RESTful API. Created for mobile a
 
 
 ## Updates
+
+##### Update 3
+   - Refined SessionTimesTransformer (includes cinema and movie data)
+   - Added date query to CinemasController@sessions = YYYY-MM-DD hh:mm:ss (eg ?date=2014-11-06 02:51:35)
+      -Supports partial dates (eg ?date=11-06)
+   - Changed SessionTimesransformer to return cinema_id and movie_id (simpler data)
+   - Updated seeds to seed more data all around
+   - Added partial date search using mysql 'like' and adding '%' wildcard to input
+   - Added respondPaginate to ApiController
+   - Changed sessions resource - now only responding to index (Can expand later if needed)
+   - Added pagination to movies, cinemas and sessions (eg ?page=2&limit=10)
+   - Added basic PhpUnit tests. just tests status codes
+   - Added simple versioning - api/v1/etc...
+   - **Temporary:** Switched back to in-controller 404 NotFound handling (Cant find where to globally catch findOrFail)
+   - Added MoviesController's store and destroy methods
+   - Added CinemasController's store and destroy methods
 
 ##### Update 2
    - Added resourceful route for cinemas
@@ -141,7 +305,7 @@ Cinema Guide App is a simple, Laravel 5 based, RESTful API. Created for mobile a
    - Remove unused controllers etc.
    - Added simple delete functionality (No Validation)
    - switched to findOrFail 
-   - Couldnt figure out laravel 5 global exception handling. (taylor has changed it recently)
+      - Couldnt figure out laravel 5 global exception handling. (taylor has changed it recently)
    - Defined Eloquent Model (database table) relationships
    - Added some incomplete requests to handle destroy, create etc...
    - Created SessionTimesTransformer Class

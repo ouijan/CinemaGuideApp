@@ -2,7 +2,7 @@
 
 use App\Http\Requests\Request;
 
-class DestroyMoviesRequest extends Request {
+class PaginateRequest extends Request {
 
 	/**
 	 * Get the validation rules that apply to the request.
@@ -12,7 +12,9 @@ class DestroyMoviesRequest extends Request {
 	public function rules()
 	{
 		return [
-			'id'	=> 'required',
+			'limit' 	=> 'integer',
+			'offset'	=> 'integer',
+			'page'		=> 'integer',
 		];
 	}
 
